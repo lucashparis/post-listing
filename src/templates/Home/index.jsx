@@ -11,7 +11,7 @@ export class Home extends Component {
     posts: [],
     allPosts: [],
     page: 0,
-    postsPerPage: 2
+    postsPerPage: 3
   };
 
   async componentDidMount(){
@@ -29,7 +29,12 @@ export class Home extends Component {
   }
 
   loadMorePosts = () => {
-    console.log('loadMorePosts');
+    const { page, postsPerPage, allPosts, posts } = this.state;
+    const nextPage = page +  postsPerPage;
+    const nextPosts = allPosts.slice(nextPage, nextPage + postsPerPage);
+    posts.push(...nextPosts);
+
+    this.setState({posts, page: nextPage});
   }
 
   componentDidUpdate(){
@@ -39,15 +44,19 @@ export class Home extends Component {
   }
 
   render(){
-    const { posts } = this.state;
+    const { posts, page, postsPerPage, allPosts} = this.state;
+    const noMorePosts = page + postsPerPage >= allPosts.length;
 
     return (
       <section className="container">
         <Posts posts={posts}/>
-        <Button  
-          text="Load More Posts"
-          onClick={this.loadMorePosts}
-        />
+        <div class="button-container">
+          <Button  
+            text="Load More Posts"
+            onClick={this.loadMorePosts}
+            disabled={noMorePosts}
+          />
+        </div>
       </section>
     );
   }

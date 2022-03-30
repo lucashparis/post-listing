@@ -1,6 +1,12 @@
-export const Button = ({text, onClick}) => {
+import './styles.css'
+
+export const Button = ({text, onClick, disabled}) => {
     return (
-        <button onClick={onClick}>
+        <button 
+            className="button" 
+            onClick={onClick}
+            disabled={disabled}
+        >
             {text}
         </button>
     );
